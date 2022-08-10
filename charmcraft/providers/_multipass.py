@@ -26,7 +26,10 @@ from craft_providers import bases, multipass
 from craft_providers.multipass.errors import MultipassError
 
 from charmcraft.config import Base
-from charmcraft.env import get_managed_environment_project_path
+from charmcraft.env import (
+    get_managed_environment_project_path,
+    get_managed_environment_snap_channel,
+)
 from charmcraft.utils import confirm_with_user, get_host_architecture
 
 from ._buildd import BASE_CHANNEL_TO_BUILDD_IMAGE_ALIAS, CharmcraftBuilddBaseConfiguration
@@ -159,7 +162,16 @@ class MultipassProvider(Provider):
 
         environment = self.get_command_environment()
         base_configuration = CharmcraftBuilddBaseConfiguration(
-            alias=alias, environment=environment, hostname=instance_name
+            alias=alias,
+            environment=environment,
+            hostname=instance_name,
+            snaps=[
+                bases.buildd.Snap(
+                    name="charmcraft",
+                    channel=get_managed_environment_snap_channel(),
+                    classic=True,
+                )
+            ],
         )
 
         try:

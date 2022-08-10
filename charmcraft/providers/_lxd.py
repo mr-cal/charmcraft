@@ -25,7 +25,10 @@ from craft_cli import emit, CraftError
 from craft_providers import bases, lxd
 
 from charmcraft.config import Base
-from charmcraft.env import get_managed_environment_project_path
+from charmcraft.env import (
+    get_managed_environment_project_path,
+    get_managed_environment_snap_channel,
+)
 from charmcraft.utils import confirm_with_user, get_host_architecture
 
 from ._buildd import BASE_CHANNEL_TO_BUILDD_IMAGE_ALIAS, CharmcraftBuilddBaseConfiguration
@@ -174,7 +177,16 @@ class LXDProvider(Provider):
         projectdir_owner_id = project_path.stat().st_uid
 
         base_configuration = CharmcraftBuilddBaseConfiguration(
-            alias=alias, environment=environment, hostname=instance_name
+            alias=alias,
+            environment=environment,
+            hostname=instance_name,
+            snaps=[
+                bases.buildd.Snap(
+                    name="charmcraft",
+                    channel=get_managed_environment_snap_channel(),
+                    classic=True,
+                )
+            ],
         )
         try:
             instance = lxd.launch(
