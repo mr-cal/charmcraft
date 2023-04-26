@@ -135,6 +135,7 @@ suites:
     summary: simple charmcraft commands
   tests/spread/charms/:
     summary: real charm building tests
+    manual: true
   tests/spread/smoketests/:
     summary: basic charm builds in different combinations
     systems:

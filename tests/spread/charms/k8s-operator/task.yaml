@@ -1,5 +1,4 @@
 summary: pack external k8s operator charms
-manual: true
 systems:
   - ubuntu-22.04-64
 kill-timeout: 60m

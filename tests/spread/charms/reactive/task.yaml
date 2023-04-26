@@ -1,5 +1,4 @@
 summary: pack external reactive charms
-manual: true
 systems:
   - ubuntu-22.04-64
 kill-timeout: 30m
